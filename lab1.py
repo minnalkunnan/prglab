@@ -1,9 +1,9 @@
 #MERSENNE-TWISTER
 #Psuedocode found at: https://en.wikipedia.org/wiki/Mersenne_Twister
 
-def _int32(x):
-    # Get the 32 least significant bits.
-    return int(0xFFFFFFFF & x)
+import time
+import datetime
+import calendar
 
 def ascii_to_hex ( ascii_text ):
    hex_text = ascii_text.encode("hex");
@@ -41,6 +41,10 @@ def XOR_text_key ( text , key ):
    new_text = hex_to_ascii(hex_new_text)
    return new_text
    
+def _int32(x):
+    # Get the 32 least significant bits.
+    return int(0xFFFFFFFF & x)
+    
 class MT19937:
 
     def __init__(self, seed):
@@ -83,5 +87,10 @@ class MT19937:
                 self.mt[i] = self.mt[i] ^ 0x9908b0df
         self.index = 0
         #test
-        
 
+
+while 1:
+   epoch = int(time.time())
+   mt = MT19937(epoch)
+   print(mt.extract_number())
+   time.sleep(5)

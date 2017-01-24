@@ -4,6 +4,7 @@
 import time
 import datetime
 import calendar
+import random
 
 def ascii_to_hex ( ascii_text ):
    hex_text = ascii_text.encode("hex");
@@ -16,6 +17,8 @@ def hex_to_ascii ( hex_text ):
    return ascii_text
    
 def hex_to_base64 ( hex_text ):
+   if len(hex_text) % 2 == 1:
+      hex_text = "0" + hex_text
    base64_text = hex_text.decode("hex").encode("base64");
    #print(base64_text)
    return base64_text
@@ -88,12 +91,25 @@ class MT19937:
         self.index = 0
         #test
 
-
-while 1:
+def MT_guesser():
+   rand = random.randint(5, 60)
+   time.sleep(rand)
+   
    epoch = int(time.time())
    mt = MT19937(epoch)
-   num = mt.extract_number()
-   if num.count("1") == 32:
-      print(hex_to_base64(hex(num)))
-   time.sleep(5)
+   print("initial time: " + str(epoch))
    
+   rand = random.randint(5, 60)
+   time.sleep(rand)
+   epoch = int(time.time())
+   
+   num = 0
+   while num.bit_length() != 32:
+      num = mt.extract_number()
+   
+   print(epoch)
+   print(hex_to_base64(format(num, 'x')))
+   print("----------------------NEXT-------------------------")
+      
+#while 1:
+MT_guesser()

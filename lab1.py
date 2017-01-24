@@ -92,5 +92,8 @@ class MT19937:
 while 1:
    epoch = int(time.time())
    mt = MT19937(epoch)
-   print(mt.extract_number())
+   num = mt.extract_number()
+   if num.count("1") == 32:
+      print(hex_to_base64(hex(num)))
    time.sleep(5)
+   

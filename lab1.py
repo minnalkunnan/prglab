@@ -90,6 +90,19 @@ class MT19937:
                 self.mt[i] = self.mt[i] ^ 0x9908b0df
         self.index = 0
         #test
+        
+    """def invertTwist(self):
+        for i in range(624):
+            # Get the most significant bit and add it to the less significant
+            # bits of the next number
+            y = _int32((self.mt[i] & 0x80000000) +
+                       (self.mt[(i + 1) % 624] & 0x7fffffff))
+            self.mt[i] = self.mt[(i + 397) % 624] ^ y >> 1
+
+            if y % 2 != 0:
+                self.mt[i] = self.mt[i] ^ 0x9908b0df
+        self.index = 0
+        #test"""
 
 def MT_guesser():
    rand = random.randint(5, 60)

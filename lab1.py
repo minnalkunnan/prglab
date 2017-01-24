@@ -127,6 +127,7 @@ def brute_force():
 
     if base64 == '0NtR6Q==':
       print("This is the value {}".format(epoch))
+      break
       
     epoch -= 1
   

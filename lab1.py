@@ -97,7 +97,7 @@ def MT_guesser():
    
    epoch = int(time.time())
    mt = MT19937(epoch)
-   print("initial time: " + str(epoch))
+   print("Initial time: " + str(epoch))
    
    rand = random.randint(5, 60)
    time.sleep(rand)
@@ -107,12 +107,15 @@ def MT_guesser():
    while num.bit_length() != 32:
       num = mt.extract_number()
    
+   epoch = int(time.time())
+   
+   print("Finding " + hex_to_base64(format(num, 'x')) + "...")
+   epoch = brute_force(epoch, hex_to_base64(format(num, 'x')))
+   
    print(epoch)
-   print(hex_to_base64(format(num, 'x')))
-   print("----------------------NEXT-------------------------")
       
-def brute_force():
-  epoch = int(time.time())
+def brute_force(cur_time, base64_in):
+  epoch = cur_time
 
   while epoch:
     mt = MT19937(epoch)
@@ -123,14 +126,13 @@ def brute_force():
 
     base64 = hex_to_base64(format(num, 'x'))
 
-    print("I: {} Base64: {}".format(epoch, base64))
+    #print("I: {} Base64: {}".format(epoch, base64))
 
-    if base64 == '0NtR6Q==':
-      print("This is the value {}".format(epoch))
-      break
+    if base64 == base64_in:
+      #print("This is the value {}".format(epoch))
+      return epoch
       
     epoch -= 1
+  return epoch
   
-
-#while 1:
-brute_force()
+MT_guesser()

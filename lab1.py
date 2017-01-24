@@ -5,6 +5,42 @@ def _int32(x):
     # Get the 32 least significant bits.
     return int(0xFFFFFFFF & x)
 
+def ascii_to_hex ( ascii_text ):
+   hex_text = ascii_text.encode("hex");
+   #print(hex_text)
+   return hex_text
+   
+def hex_to_ascii ( hex_text ):
+   ascii_text = hex_text.decode("hex");
+   #print(ascii_text)
+   return ascii_text
+   
+def hex_to_base64 ( hex_text ):
+   base64_text = hex_text.decode("hex").encode("base64");
+   #print(base64_text)
+   return base64_text
+   
+def base64_to_hex ( base64_text ):
+   hex_text = base64_text.decode("base64").encode("hex");
+   #print(hex_text)
+   return hex_text
+
+def XOR_text_key ( text , key ):
+   main_key = key
+   new_text = ""
+   while len(main_key) < len(text):
+      main_key += key
+   main_key = main_key[:len(text)]
+   hex_text = ascii_to_hex(text)
+   hex_key = ascii_to_hex(main_key)
+   hex_new_text = hex(int(hex_text, 16) ^ int(hex_key, 16))
+   hex_new_text = hex_new_text[2:len(hex_new_text)-1]
+   
+   if len(hex_new_text) % 2 == 1:
+      hex_new_text = "0" + hex_new_text
+   new_text = hex_to_ascii(hex_new_text)
+   return new_text
+   
 class MT19937:
 
     def __init__(self, seed):
@@ -47,3 +83,5 @@ class MT19937:
                 self.mt[i] = self.mt[i] ^ 0x9908b0df
         self.index = 0
         #test
+        
+

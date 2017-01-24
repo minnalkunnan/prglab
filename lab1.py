@@ -103,13 +103,27 @@ def MT_guesser():
    time.sleep(rand)
    epoch = int(time.time())
    
-   num = 0
-   while num.bit_length() != 32:
-      num = mt.extract_number()
+   
    
    print(epoch)
    print(hex_to_base64(format(num, 'x')))
    print("----------------------NEXT-------------------------")
       
-#while 1:
-MT_guesser()
+def brute_force():
+  i = 1
+  epoch = int(time.time())
+
+  while i:
+    mt = MT19937(i)
+
+    num = 0
+    while num.bit_length() != 32:
+      num = mt.extract_number()
+
+    base64 = hex_to_base64(format(num, 'x'))
+    if base64 == '0NtR6Q==':
+      print("This is the value {}".format(i))
+      
+    i += 1
+  
+brute_force()

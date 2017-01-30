@@ -51,7 +51,7 @@ def _int32(x):
 
 #Mersenne Twister MT 19937
 class MT19937:
-	def __init__(self, seed):
+   def __init__(self, seed):
       # Initialize the index to 0
       self.index = 624
       self.mt = [0] * 624
@@ -60,27 +60,27 @@ class MT19937:
          self.mt[i] = _int32(
           1812433253 * (self.mt[i - 1] ^ self.mt[i - 1] >> 30) + i)
 
-    def extract_number(self):
-     if self.index >= 624:
+   def extract_number(self):
+      if self.index >= 624:
          self.twist()
 
-     y = self.mt[self.index]
+      y = self.mt[self.index]
 
-     # Right shift by 11 bits
-     y = y ^ y >> 11
-     # Shift y left by 7 and take the bitwise and of 2636928640
-     y = y ^ y << 7 & 2636928640
-     # Shift y left by 15 and take the bitwise and of y and 4022730752
-     y = y ^ y << 15 & 4022730752
-     # Right shift by 18 bits
-     y = y ^ y >> 18
+      # Right shift by 11 bits
+      y = y ^ y >> 11
+      # Shift y left by 7 and take the bitwise and of 2636928640
+      y = y ^ y << 7 & 2636928640
+      # Shift y left by 15 and take the bitwise and of y and 4022730752
+      y = y ^ y << 15 & 4022730752
+      # Right shift by 18 bits
+      y = y ^ y >> 18
 
-     self.index = self.index + 1
+      self.index = self.index + 1
 
-     return _int32(y)
+      return _int32(y)
 
-    def twist(self):
-     for i in range(624):
+   def twist(self):
+      for i in range(624):
          # Get the most significant bit and add it to the less significant
          # bits of the next number
          y = _int32((self.mt[i] & 0x80000000) +
@@ -88,27 +88,26 @@ class MT19937:
          self.mt[i] = self.mt[(i + 397) % 624] ^ y >> 1
 
          if y % 2 != 0:
-             self.mt[i] = self.mt[i] ^ 0x9908b0df
-     self.index = 0
-     #test
+            self.mt[i] = self.mt[i] ^ 0x9908b0df
+      self.index = 0
+      #test
         
-    def invertTwist(y):
-     #y = self.mt[self.index]
+   def invertTwist(self, y):
+       #y = self.mt[self.index]
 
-     # Right shift by 11 bits
-     y = y ^ (y >> 18);
-     y = y ^ (y << 15) & 0xEFC60000;
-     y = y ^ (y << 7) & 0x1680;
-     y = y ^ (y << 7) & 0xC4000;
-     y = y ^ (y << 7) & 0xD200000;
-     y = y ^ (y << 7) & 0x90000000;
-     y = y ^ (y >> 11) & 0xFFC00000;
-     y = y ^ (y >> 11) & 0x3FF800;
-     y = y ^ (y >> 11) & 0x7FF;
+       # Right shift by 11 bits
+       y = y ^ (y >> 18);
+       y = y ^ (y << 15) & 0xEFC60000;
+       y = y ^ (y << 7) & 0x1680;
+       y = y ^ (y << 7) & 0xC4000;
+       y = y ^ (y << 7) & 0xD200000;
+       y = y ^ (y << 7) & 0x90000000;
+       y = y ^ (y >> 11) & 0xFFC00000;
+       y = y ^ (y >> 11) & 0x3FF800;
+       y = y ^ (y >> 11) & 0x7FF;
 
-     return _int32(y);
-
-"""        
+       return _int32(y);
+        
 def MT_guesser():
    rand = random.randint(5, 60)
    time.sleep(rand)
@@ -153,14 +152,16 @@ def brute_force(cur_time, base64_in):
     epoch -= 1
   return epoch
   
-MT_guesser()
-"""
+#MT_guesser()
 
+"""
 mt = MT19937(8)
+mt.twist()
 print("mt arr: " + str(mt.mt))
 print("index: " + str(mt.index))
-print("val: " + str(mt.mt[mt.index))
+print("val: " + str(mt.mt[mt.index]))
 y = mt.extract_number()
 print("y: " + str(y))
 x = mt.invertTwist(y)
 print("invert y: " + str(x))
+"""
